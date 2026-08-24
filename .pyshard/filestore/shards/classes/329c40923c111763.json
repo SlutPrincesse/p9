@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "329c40923c111763",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "ToolError",
+    "lineno": 84,
+    "end_lineno": 86,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'ToolError' encapsulating related state and behavior.",
+    "code_hash": "e4dc09d592db3ec9"
+  },
+  "code": "class ToolError(AgentError):\n    \"\"\"Raised when tool execution fails.\"\"\"\n    pass"
+}

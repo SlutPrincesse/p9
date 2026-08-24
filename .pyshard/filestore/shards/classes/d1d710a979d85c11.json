@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "d1d710a979d85c11",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "Memory",
+    "lineno": 297,
+    "end_lineno": 307,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'Memory' encapsulating related state and behavior.",
+    "code_hash": "6dd7a0d549295c4a"
+  },
+  "code": "class Memory(Protocol):\n    \"\"\"Protocol for memory backends.\"\"\"\n\n    def add(self, content: str, **metadata) -> None:\n        ...\n\n    def get(self, query: Optional[str] = None, limit: int = 10) -> List[Dict[str, Any]]:\n        ...\n\n    def clear(self) -> None:\n        ..."
+}

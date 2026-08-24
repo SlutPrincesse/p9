@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "4e4be797ba9f0104",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "UserAdapter",
+    "lineno": 569,
+    "end_lineno": 577,
+    "cyclomatic_complexity": 2,
+    "import_dependencies": [],
+    "description": "Class 'UserAdapter' encapsulating related state and behavior.",
+    "code_hash": "aceca617ddc57daf"
+  },
+  "code": "class UserAdapter(BaseLLMAdapter):\n    \"\"\"Adapter that prompts the user directly (for testing/demo).\"\"\"\n\n    def chat(self, messages: List[Message], tools: Optional[List[Dict[str, Any]]] = None, **kwargs) -> Message:\n        print(\"\\n--- Agent is asking ---\")\n        for m in messages[-2:]:\n            print(f\"{m.role.value}: {m.content}\")\n        user_input = input(\"Your response: \")\n        return Message(role=Role.ASSISTANT, content=user_input)"
+}

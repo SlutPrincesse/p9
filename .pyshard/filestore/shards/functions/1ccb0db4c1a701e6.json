@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "1ccb0db4c1a701e6",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "benchmark_message_creation",
+    "lineno": 154,
+    "end_lineno": 161,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'benchmark_message_creation' performing a discrete computational task.",
+    "code_hash": "980b50a7077ff60f"
+  },
+  "code": "def benchmark_message_creation():\n    \"\"\"Benchmark message creation overhead.\"\"\"\n    def run():\n        msg = Message(role=Role.USER, content=\"Hello world\")\n        msg.to_dict()\n        Message.from_dict({\"role\": \"assistant\", \"content\": \"Hi!\"})\n\n    return benchmark(\"Message Creation\", run, iterations=50000, warmup=5000)"
+}

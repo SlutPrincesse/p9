@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "c47e856120de7c2d",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "BaseLLMAdapter",
+    "lineno": 336,
+    "end_lineno": 347,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'BaseLLMAdapter' encapsulating related state and behavior.",
+    "code_hash": "23a2e4d6f9d1751b"
+  },
+  "code": "class BaseLLMAdapter(ABC):\n    \"\"\"Base class for LLM adapters.\"\"\"\n\n    @abstractmethod\n    def chat(self, messages: List[Message], tools: Optional[List[Dict[str, Any]]] = None, **kwargs) -> Message:\n        \"\"\"Synchronous chat completion.\"\"\"\n        ...\n\n    def stream(self, messages: List[Message], tools: Optional[List[Dict[str, Any]]] = None, **kwargs) -> Generator[str, None, None]:\n        \"\"\"Streaming chat completion. Override if supported.\"\"\"\n        msg = self.chat(messages, tools, **kwargs)\n        yield msg.content"
+}

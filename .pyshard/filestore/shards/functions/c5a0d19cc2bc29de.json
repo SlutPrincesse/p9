@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "c5a0d19cc2bc29de",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "benchmark_react_loop",
+    "lineno": 114,
+    "end_lineno": 126,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'benchmark_react_loop' performing a discrete computational task.",
+    "code_hash": "7f96c82b2e44540d"
+  },
+  "code": "def benchmark_react_loop():\n    \"\"\"Benchmark full ReAct loop iterations.\"\"\"\n    llm = FastMockLLM()\n    agent = Agent(\n        llm=llm,\n        config=AgentConfig(enable_planning=False, max_iterations=5)\n    )\n\n    def run():\n        agent.reset()\n        agent.run(\"Calculate 2+2\")\n\n    return benchmark(\"ReAct Loop (full cycle)\", run, iterations=500, warmup=50)"
+}

@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "f585543251658afc",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "TestMessage",
+    "lineno": 181,
+    "end_lineno": 201,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'TestMessage' encapsulating related state and behavior.",
+    "code_hash": "4cef78a6f9b67175"
+  },
+  "code": "class TestMessage(unittest.TestCase):\n\n    def test_to_dict(self):\n        msg = Message(role=Role.USER, content=\"Hello\")\n        d = msg.to_dict()\n        self.assertEqual(d[\"role\"], \"user\")\n        self.assertEqual(d[\"content\"], \"Hello\")\n\n    def test_from_dict(self):\n        msg = Message.from_dict({\"role\": \"assistant\", \"content\": \"Hi\"})\n        self.assertEqual(msg.role, Role.ASSISTANT)\n        self.assertEqual(msg.content, \"Hi\")\n\n    def test_to_dict_with_tool_calls(self):\n        msg = Message(\n            role=Role.ASSISTANT,\n            content=\"\",\n            tool_calls=[{\"id\": \"1\", \"function\": {\"name\": \"test\", \"arguments\": \"{}\"}}],\n        )\n        d = msg.to_dict()\n        self.assertIn(\"tool_calls\", d)"
+}

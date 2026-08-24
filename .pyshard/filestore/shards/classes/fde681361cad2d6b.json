@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "fde681361cad2d6b",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "TestAgentBasics",
+    "lineno": 359,
+    "end_lineno": 392,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'TestAgentBasics' encapsulating related state and behavior.",
+    "code_hash": "322a5d87ce4aa73f"
+  },
+  "code": "class TestAgentBasics(unittest.TestCase):\n\n    def test_init(self):\n        llm = MockLLM()\n        agent = Agent(llm=llm, name=\"TestAgent\")\n        self.assertEqual(agent.name, \"TestAgent\")\n        self.assertEqual(agent.status, AgentStatus.IDLE)\n\n    def test_register_delegate(self):\n        llm = MockLLM()\n        agent = Agent(llm=llm)\n        delegate = Agent(llm=llm, name=\"Delegate\")\n        agent.register_delegate(\"helper\", delegate)\n        self.assertIn(\"helper\", agent.delegates)\n\n    def test_reset(self):\n        llm = MockLLM()\n        agent = Agent(llm=llm)\n        agent.history = [Message(role=Role.USER, content=\"test\")]\n        agent.reset()\n        self.assertEqual(len(agent.history), 0)\n        self.assertEqual(agent.status, AgentStatus.IDLE)\n\n    def test_get_history(self):\n        llm = MockLLM()\n        agent = Agent(llm=llm)\n        agent.history = [Message(role=Role.USER, content=\"test\")]\n        self.assertEqual(len(agent.get_history()), 1)\n\n    def test_get_steps(self):\n        llm = MockLLM()\n        agent = Agent(llm=llm)\n        agent.steps = [ReActStep(iteration=1, thought=\"t\", action=\"a\", observation=\"o\")]\n        self.assertEqual(len(agent.get_steps()), 1)"
+}

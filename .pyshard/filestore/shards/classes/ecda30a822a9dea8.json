@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "ecda30a822a9dea8",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "AnthropicAdapter",
+    "lineno": 430,
+    "end_lineno": 484,
+    "cyclomatic_complexity": 9,
+    "import_dependencies": [],
+    "description": "Class 'AnthropicAdapter' encapsulating related state and behavior.",
+    "code_hash": "3343d131aa9e07ef"
+  },
+  "code": "class AnthropicAdapter(BaseLLMAdapter):\n    \"\"\"Adapter for Anthropic Claude API.\"\"\"\n\n    def __init__(self, api_key: str, model: str = \"claude-3-haiku-20240307\"):\n        self.api_key = api_key\n        self.model = model\n        self.base_url = \"https://api.anthropic.com/v1\"\n\n    def chat(self, messages: List[Message], tools: Optional[List[Dict[str, Any]]] = None, **kwargs) -> Message:\n        # Filter system message\n        system_msg = \"\"\n        chat_messages = []\n        for m in messages:\n            if m.role == Role.SYSTEM:\n                system_msg = m.content\n            else:\n                chat_messages.append({\"role\": m.role.value, \"content\": m.content})\n\n        payload: Dict[str, Any] = {\n            \"model\": self.model,\n            \"max_tokens\": 4096,\n            \"messages\": chat_messages,\n        }\n        if system_msg:\n            payload[\"system\"] = system_msg\n        if tools:\n            payload[\"tools\"] = [{\"name\": t[\"function\"][\"name\"], \"description\": t[\"function\"][\"description\"], \"input_schema\": t[\"function\"][\"parameters\"]} for t in tools]\n\n        url = f\"{self.base_url}/messages\"\n        headers = {\n            \"Content-Type\": \"application/json\",\n            \"x-api-key\": self.api_key,\n            \"anthropic-version\": \"2023-06-01\",\n        }\n        data = json.dumps(payload).encode(\"utf-8\")\n        req = urllib.request.Request(url, data=data, headers=headers, method=\"POST\")\n        try:\n            with urllib.request.urlopen(req, timeout=60) as resp:\n                result = json.loads(resp.read().decode(\"utf-8\"))\n                content = \"\".join([b.get(\"text\", \"\") for b in result.get(\"content\", []) if b.get(\"type\") == \"text\"])\n                tool_use = next((b for b in result.get(\"content\", []) if b.get(\"type\") == \"tool_use\"), None)\n                tool_calls = None\n                if tool_use:\n                    tool_calls = [{\"id\": tool_use[\"id\"], \"type\": \"function\", \"function\": {\"name\": tool_use[\"name\"], \"arguments\": json.dumps(tool_use[\"input\"])}}]\n                return Message(role=Role.ASSISTANT, content=content, tool_calls=tool_calls)\n        except urllib.error.HTTPError as e:\n            body = e.read().decode(\"utf-8\")\n            raise LLMError(f\"Anthropic API error {e.code}: {body}\")\n        except Exception as e:\n            raise LLMError(f\"Anthropic request failed: {e}\")\n\n    def stream(self, messages: List[Message], tools: Optional[List[Dict[str, Any]]] = None, **kwargs) -> Generator[str, None, None]:\n        # Claude streaming is more complex; fallback to non-streaming for simplicity\n        msg = self.chat(messages, tools, **kwargs)\n        yield msg.content"
+}

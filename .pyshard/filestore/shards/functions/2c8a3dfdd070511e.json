@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "2c8a3dfdd070511e",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "main",
+    "lineno": 268,
+    "end_lineno": 343,
+    "cyclomatic_complexity": 4,
+    "import_dependencies": [],
+    "description": "Function 'main' performing a discrete computational task.",
+    "code_hash": "05787c843df00155"
+  },
+  "code": "def main():\n    print(\"=\" * 60)\n    print(\"\ud83d\ude80 Tiny Agent Benchmark Suite\")\n    print(\"=\" * 60)\n    print(f\"Python: Measuring performance...\")\n    print()\n\n    all_results = []\n\n    # Core operations\n    print(\"Core Operations:\")\n    print(\"-\" * 40)\n    all_results.append(benchmark_message_creation())\n    all_results.append(benchmark_tool_calls())\n    all_results.append(benchmark_memory_ops())\n    all_results.append(benchmark_tool_registry())\n\n    for r in all_results:\n        print_results(r)\n\n    # Agent operations\n    print(\"\\n\" + \"=\" * 60)\n    print(\"Agent Operations:\")\n    print(\"-\" * 40)\n    agent_results = []\n    agent_results.append(benchmark_react_loop())\n    agent_results.append(benchmark_agent_lifecycle())\n    agent_results.append(benchmark_streaming())\n    agent_results.append(benchmark_planning())\n\n    for r in agent_results:\n        print_results(r)\n\n    all_results.extend(agent_results)\n\n    # Observability\n    print(\"\\n\" + \"=\" * 60)\n    print(\"Observability:\")\n    print(\"-\" * 40)\n    obs_result = benchmark_observability()\n    print_results(obs_result)\n    all_results.append(obs_result)\n\n    # Comparison\n    print(\"\\n\" + \"=\" * 60)\n    print(\"Comparison:\")\n    print(\"-\" * 40)\n    sync_result, stream_result = benchmark_comparison()\n    print_results(sync_result)\n    print_results(stream_result)\n    all_results.extend([sync_result, stream_result])\n\n    # Summary\n    print(\"\\n\" + \"=\" * 60)\n    print(\"\ud83d\udcca Summary\")\n    print(\"=\" * 60)\n    print(f\"{'Benchmark':<35} {'Ops/sec':>15} {'Avg (ms)':>12}\")\n    print(\"-\" * 60)\n    for r in all_results:\n        name = r['name'][:34]\n        ops = f\"{r['ops_per_sec']:,.2f}\"\n        avg = f\"{r['avg_time']*1000:.4f}\"\n        print(f\"{name:<35} {ops:>15} {avg:>12}\")\n\n    print()\n    print(\"=\" * 60)\n    print(\"\u2705 Benchmark complete!\")\n    print(\"=\" * 60)\n\n    # Performance notes\n    print(\"\\n\ud83d\udcdd Notes:\")\n    print(\"  - Results vary based on hardware and Python version\")\n    print(\"  - Tool calls/sec is limited by Python function call overhead\")\n    print(\"  - Memory ops include both add and get operations\")\n    print(\"  - ReAct loop includes full LLM call + parsing + execution\")\n    print(\"  - For production use, consider using PyPy for 2-5x speedup\")"
+}

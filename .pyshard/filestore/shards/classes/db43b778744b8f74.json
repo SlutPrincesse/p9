@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "db43b778744b8f74",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "Observable",
+    "lineno": 179,
+    "end_lineno": 197,
+    "cyclomatic_complexity": 4,
+    "import_dependencies": [],
+    "description": "Class 'Observable' encapsulating related state and behavior.",
+    "code_hash": "6c1c35e4bd41e5e2"
+  },
+  "code": "class Observable:\n    \"\"\"Mixin for observable events.\"\"\"\n\n    def __init__(self):\n        self._hooks: Dict[str, List[Callable]] = {}\n\n    def on(self, event: str, callback: Callable) -> None:\n        self._hooks.setdefault(event, []).append(callback)\n\n    def off(self, event: str, callback: Callable) -> None:\n        if event in self._hooks:\n            self._hooks[event] = [c for c in self._hooks[event] if c != callback]\n\n    def emit(self, event: str, *args, **kwargs) -> None:\n        for callback in self._hooks.get(event, []):\n            try:\n                callback(*args, **kwargs)\n            except Exception as e:\n                logger.warning(f\"Hook error for {event}: {e}\")"
+}

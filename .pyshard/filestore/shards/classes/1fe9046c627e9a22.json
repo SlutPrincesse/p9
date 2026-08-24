@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "1fe9046c627e9a22",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "class",
+    "name": "FastMockLLM",
+    "lineno": 35,
+    "end_lineno": 48,
+    "cyclomatic_complexity": 2,
+    "import_dependencies": [],
+    "description": "Class 'FastMockLLM' encapsulating related state and behavior.",
+    "code_hash": "e383bdd8d8c3ffe9"
+  },
+  "code": "class FastMockLLM(BaseLLMAdapter):\n    \"\"\"Ultra-fast mock LLM for benchmarking.\"\"\"\n\n    def __init__(self, response_text: str = \"Thought: Done\\nAction: Final Answer(42)\"):\n        self.response_text = response_text\n        self.call_count = 0\n\n    def chat(self, messages, tools=None, **kwargs):\n        self.call_count += 1\n        return Message(role=Role.ASSISTANT, content=self.response_text)\n\n    def stream(self, messages, tools=None, **kwargs):\n        for word in self.response_text.split():\n            yield word + \" \""
+}

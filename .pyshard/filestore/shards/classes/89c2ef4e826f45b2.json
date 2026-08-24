@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "89c2ef4e826f45b2",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "TestOllamaAdapter",
+    "lineno": 319,
+    "end_lineno": 332,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'TestOllamaAdapter' encapsulating related state and behavior.",
+    "code_hash": "245e0f271a4edd25"
+  },
+  "code": "class TestOllamaAdapter(unittest.TestCase):\n\n    @patch(\"urllib.request.urlopen\")\n    def test_chat_success(self, mock_urlopen):\n        mock_response = MagicMock()\n        mock_response.read.return_value = json.dumps({\n            \"message\": {\"content\": \"Hello from Ollama\"}\n        }).encode()\n        mock_urlopen.return_value.__enter__.return_value = mock_response\n\n        adapter = OllamaAdapter(model=\"llama3\")\n        messages = [Message(role=Role.USER, content=\"Hi\")]\n        result = adapter.chat(messages)\n        self.assertEqual(result.content, \"Hello from Ollama\")"
+}

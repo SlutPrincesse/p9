@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "ccecb77eba7f954d",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "TestToolRegistry",
+    "lineno": 63,
+    "end_lineno": 94,
+    "cyclomatic_complexity": 2,
+    "import_dependencies": [],
+    "description": "Class 'TestToolRegistry' encapsulating related state and behavior.",
+    "code_hash": "1f696f5991882804"
+  },
+  "code": "class TestToolRegistry(unittest.TestCase):\n\n    def test_register_and_get(self):\n        registry = ToolRegistry()\n\n        def dummy(a: int, b: int) -> int:\n            return a + b\n\n        t = Tool(name=\"add\", func=dummy, description=\"Add two numbers\", parameters={\"type\": \"object\", \"properties\": {}})\n        registry.register(t)\n\n        self.assertEqual(len(registry), 1)\n        self.assertIn(\"add\", registry)\n        self.assertEqual(registry.get(\"add\").call(a=1, b=2), 3)\n\n    def test_get_missing_raises(self):\n        registry = ToolRegistry()\n        with self.assertRaises(ToolError):\n            registry.get(\"nonexistent\")\n\n    def test_list_tools(self):\n        registry = ToolRegistry()\n        registry.register(Tool(name=\"t1\", func=lambda: None, description=\"\", parameters={}))\n        registry.register(Tool(name=\"t2\", func=lambda: None, description=\"\", parameters={}))\n        self.assertEqual(len(registry.list_tools()), 2)\n\n    def test_get_schemas(self):\n        registry = ToolRegistry()\n        registry.register(Tool(name=\"t1\", func=lambda: None, description=\"Test\", parameters={\"type\": \"object\"}))\n        schemas = registry.get_schemas()\n        self.assertEqual(len(schemas), 1)\n        self.assertEqual(schemas[0][\"function\"][\"name\"], \"t1\")"
+}

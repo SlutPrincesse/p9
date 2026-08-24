@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "f61f550717edc84d",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "PlanningError",
+    "lineno": 94,
+    "end_lineno": 96,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'PlanningError' encapsulating related state and behavior.",
+    "code_hash": "3db2b5a0f15f3350"
+  },
+  "code": "class PlanningError(AgentError):\n    \"\"\"Raised when planning fails.\"\"\"\n    pass"
+}

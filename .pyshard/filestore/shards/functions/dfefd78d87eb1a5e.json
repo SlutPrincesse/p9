@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "shard_id": "dfefd78d87eb1a5e",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard/sandbox/repo_0/example.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "sqrt",
+    "lineno": 40,
+    "end_lineno": 45,
+    "cyclomatic_complexity": 2,
+    "import_dependencies": [
+      "math"
+    ],
+    "description": "Function 'sqrt' performing a discrete computational task.",
+    "code_hash": "2767b24959926e07"
+  },
+  "code": "def sqrt(x: float) -> float:\n    \"\"\"Calculate square root of a number.\"\"\"\n    if x < 0:\n        raise ValueError(\"Cannot calculate square root of negative number\")\n    import math\n    return math.sqrt(x)"
+}
