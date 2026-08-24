@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyshard-p9"
 version = "0.1.0"
-description = "Python-centric reverse-engineering, SRP sharding, and synthesis engine"
+description = "Python-centric reverse-engineering, SRP sharding, and synthesis engine with integrated agent framework"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
@@ -22,10 +22,10 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
-keywords = ["ast", "sharding", "synthesis", "reverse-engineering", "srp"]
+keywords = ["ast", "sharding", "synthesis", "reverse-engineering", "srp", "agent", "llm"]
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-asyncio", "ruff", "libcst"]
+dev = ["pytest", "pytest-asyncio", "ruff"]
 
 [tool.setuptools.packages.find]
 where = ["."]

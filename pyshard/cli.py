@@ -8,9 +8,61 @@ import json
 import sys
 from pathlib import Path
 
+from pyshard.agent import Agent, AgentConfig, InMemoryMemory, OpenAIAdapter, Role, ToolRegistry, tool
 from pyshard.analysis.ast_sharder import shard_directory
 from pyshard.filestore.metadata import ShardStore
 from pyshard.ingestion.clone_engine import ingest_repos
+
+
+def cmd_agent_demo(args: argparse.Namespace) -> None:
+    """Run a quick agent demo using the integrated tiny-agent framework."""
+    print("[agent] Starting PyShard-P9 agent demo...")
+
+    @tool()
+    def add(a: float, b: float) -> float:
+        """Add two numbers."""
+        return a + b
+
+    @tool()
+    def multiply(a: float, b: float) -> float:
+        """Multiply two numbers."""
+        return a * b
+
+    @tool()
+    def power(base: float, exponent: float) -> float:
+        """Raise base to the power of exponent."""
+        return base ** exponent
+
+    tools = ToolRegistry()
+    tools.register(add._tiny_agent_tool)
+    tools.register(multiply._tiny_agent_tool)
+    tools.register(power._tiny_agent_tool)
+
+    agent = Agent(
+        llm=OpenAIAdapter(api_key=args.api_key or "demo"),
+        tools=tools,
+        memory=InMemoryMemory(),
+        config=AgentConfig(
+            system_prompt="You are a calculator agent. Use tools to solve math problems.",
+            enable_planning=False,
+            max_iterations=5,
+        ),
+        name="CalculatorAgent",
+    )
+
+    queries = [
+        "What is 15 + 27?",
+        "What is 3 * 4?",
+        "What is 2 to the power of 10?",
+    ]
+
+    for q in queries:
+        print(f"\n  Q: {q}")
+        try:
+            result = agent.run(q)
+            print(f"  A: {result}")
+        except Exception as e:
+            print(f"  Error: {e}")
 
 
 def cmd_ingest(args: argparse.Namespace) -> None:
@@ -88,8 +140,13 @@ def cmd_stats(args: argparse.Namespace) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(prog="pyshard", description="PyShard-P9 CLI")
+    parser = argparse.ArgumentParser(prog="pyshard", description="PyShard-P9: Agent framework + AST sharding")
     subparsers = parser.add_subparsers(dest="command")
+
+    p_agent = subparsers.add_parser("agent", help="Run integrated agent demo")
+    p_agent.add_argument("--api-key", help="OpenAI API key (optional for demo)")
+    p_agent.add_argument("--sandbox", default=".pyshard/sandbox")
+    p_agent.add_argument("--store", default=".pyshard/filestore")
 
     p_ingest = subparsers.add_parser("ingest", help="Clone repos into sandbox")
     p_ingest.add_argument("repos", nargs="+", help="GitHub repo URLs")
@@ -110,7 +167,9 @@ def main() -> None:
     p_stats.add_argument("--store", default=".pyshard/filestore", help="Filestore root")
 
     args = parser.parse_args()
-    if args.command == "ingest":
+    if args.command == "agent":
+        cmd_agent_demo(args)
+    elif args.command == "ingest":
         cmd_ingest(args)
     elif args.command == "shard":
         cmd_shard(args)
