@@ -26,6 +26,11 @@ keywords = ["ast", "sharding", "synthesis", "reverse-engineering", "srp", "agent
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-asyncio", "ruff"]
+web = ["fastapi", "uvicorn[standard]", "pydantic"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pyshard*"]
 
 [tool.setuptools.packages.find]
 where = ["."]

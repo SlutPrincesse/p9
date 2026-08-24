@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "c46ecbeb2f2f41b9",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "benchmark_tool_registry",
+    "lineno": 164,
+    "end_lineno": 180,
+    "cyclomatic_complexity": 2,
+    "import_dependencies": [],
+    "description": "Function 'benchmark_tool_registry' performing a discrete computational task.",
+    "code_hash": "e25008147f6718a6"
+  },
+  "code": "def benchmark_tool_registry():\n    \"\"\"Benchmark tool registry operations.\"\"\"\n    registry = ToolRegistry()\n\n    for i in range(100):\n        registry.register(Tool(\n            name=f\"tool_{i}\",\n            func=lambda: None,\n            description=f\"Tool {i}\",\n            parameters={}\n        ))\n\n    def run():\n        registry.get(\"tool_50\")\n        registry.get_schemas()\n\n    return benchmark(\"Tool Registry (get + schemas)\", run, iterations=10000, warmup=1000)"
+}

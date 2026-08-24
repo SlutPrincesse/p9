@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "33d3288991f752a6",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/example.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "power",
+    "lineno": 49,
+    "end_lineno": 51,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'power' performing a discrete computational task.",
+    "code_hash": "29b21f010ed30713"
+  },
+  "code": "def power(base: float, exponent: float) -> float:\n    \"\"\"Raise base to the power of exponent.\"\"\"\n    return base ** exponent"
+}

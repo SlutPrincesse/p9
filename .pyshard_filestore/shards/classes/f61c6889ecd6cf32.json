@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "f61c6889ecd6cf32",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "MockLLM",
+    "lineno": 38,
+    "end_lineno": 58,
+    "cyclomatic_complexity": 3,
+    "import_dependencies": [],
+    "description": "Class 'MockLLM' encapsulating related state and behavior.",
+    "code_hash": "38922c3fae45454f"
+  },
+  "code": "class MockLLM(BaseLLMAdapter):\n    \"\"\"Mock LLM for testing.\"\"\"\n\n    def __init__(self, responses=None):\n        self.responses = responses or []\n        self.call_count = 0\n        self.last_messages = None\n\n    def chat(self, messages, tools=None, **kwargs):\n        self.last_messages = messages\n        if self.call_count < len(self.responses):\n            response = self.responses[self.call_count]\n            self.call_count += 1\n            return response\n        return Message(role=Role.ASSISTANT, content=\"Default response\")\n\n    def stream(self, messages, tools=None, **kwargs):\n        self.last_messages = messages\n        yield \"Hello\"\n        yield \" world\"\n        yield \"!\""
+}

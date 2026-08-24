@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "40cf9133b5ef761c",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "benchmark_tool_calls",
+    "lineno": 129,
+    "end_lineno": 140,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'benchmark_tool_calls' performing a discrete computational task.",
+    "code_hash": "161dbf3e574dbcea"
+  },
+  "code": "def benchmark_tool_calls():\n    \"\"\"Benchmark tool execution speed.\"\"\"\n    @tool()\n    def fast_add(a: int, b: int) -> int:\n        return a + b\n\n    tool_obj = fast_add._tiny_agent_tool\n\n    def run():\n        tool_obj.call(a=1, b=2)\n\n    return benchmark(\"Tool Calls (add)\", run, iterations=100000, warmup=10000)"
+}

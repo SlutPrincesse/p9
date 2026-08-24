@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "a839fca025a788cf",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "TestInMemoryMemory",
+    "lineno": 141,
+    "end_lineno": 176,
+    "cyclomatic_complexity": 3,
+    "import_dependencies": [],
+    "description": "Class 'TestInMemoryMemory' encapsulating related state and behavior.",
+    "code_hash": "76cc3747943081cf"
+  },
+  "code": "class TestInMemoryMemory(unittest.TestCase):\n\n    def test_add_and_get(self):\n        mem = InMemoryMemory()\n        mem.add(\"Hello world\", tag=\"greeting\")\n        items = mem.get()\n        self.assertEqual(len(items), 1)\n        self.assertEqual(items[0][\"content\"], \"Hello world\")\n        self.assertEqual(items[0][\"tag\"], \"greeting\")\n\n    def test_get_with_query(self):\n        mem = InMemoryMemory()\n        mem.add(\"Python is great\")\n        mem.add(\"Java is ok\")\n        mem.add(\"Python rocks\")\n        items = mem.get(query=\"python\")\n        self.assertEqual(len(items), 2)\n\n    def test_get_limit(self):\n        mem = InMemoryMemory()\n        for i in range(10):\n            mem.add(f\"Item {i}\")\n        items = mem.get(limit=3)\n        self.assertEqual(len(items), 3)\n\n    def test_clear(self):\n        mem = InMemoryMemory()\n        mem.add(\"test\")\n        mem.clear()\n        self.assertEqual(len(mem.get()), 0)\n\n    def test_max_items(self):\n        mem = InMemoryMemory(max_items=5)\n        for i in range(10):\n            mem.add(f\"Item {i}\")\n        self.assertEqual(len(mem.get()), 5)"
+}

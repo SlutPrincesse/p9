@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "30ba3ac408bb69a2",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "BudgetExceeded",
+    "lineno": 1054,
+    "end_lineno": 1056,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'BudgetExceeded' encapsulating related state and behavior.",
+    "code_hash": "6478d49cf38d8022"
+  },
+  "code": "class BudgetExceeded(Exception):\n    \"\"\"Raised when the agent's runtime budget is exceeded.\"\"\"\n    pass"
+}

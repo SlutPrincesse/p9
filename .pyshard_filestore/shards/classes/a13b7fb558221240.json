@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "a13b7fb558221240",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "HTTPAdapter",
+    "lineno": 545,
+    "end_lineno": 566,
+    "cyclomatic_complexity": 6,
+    "import_dependencies": [],
+    "description": "Class 'HTTPAdapter' encapsulating related state and behavior.",
+    "code_hash": "c88d2a293ebad574"
+  },
+  "code": "class HTTPAdapter(BaseLLMAdapter):\n    \"\"\"Generic HTTP adapter for custom endpoints.\"\"\"\n\n    def __init__(self, url: str, headers: Optional[Dict[str, str]] = None, response_parser: Optional[Callable[[Dict[str, Any]], str]] = None):\n        self.url = url\n        self.headers = headers or {\"Content-Type\": \"application/json\"}\n        self.response_parser = response_parser or (lambda r: r.get(\"response\", \"\"))\n\n    def chat(self, messages: List[Message], tools: Optional[List[Dict[str, Any]]] = None, **kwargs) -> Message:\n        payload = {\n            \"messages\": [m.to_dict() for m in messages],\n            \"tools\": tools or [],\n        }\n        data = json.dumps(payload).encode(\"utf-8\")\n        req = urllib.request.Request(self.url, data=data, headers=self.headers, method=\"POST\")\n        try:\n            with urllib.request.urlopen(req, timeout=60) as resp:\n                result = json.loads(resp.read().decode(\"utf-8\"))\n                content = self.response_parser(result)\n                return Message(role=Role.ASSISTANT, content=content)\n        except Exception as e:\n            raise LLMError(f\"HTTP adapter failed: {e}\")"
+}

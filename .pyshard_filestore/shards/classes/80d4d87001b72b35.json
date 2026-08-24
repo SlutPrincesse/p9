@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "80d4d87001b72b35",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "Role",
+    "lineno": 101,
+    "end_lineno": 105,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'Role' encapsulating related state and behavior.",
+    "code_hash": "0d417608e2d34538"
+  },
+  "code": "class Role(Enum):\n    SYSTEM = \"system\"\n    USER = \"user\"\n    ASSISTANT = \"assistant\"\n    TOOL = \"tool\""
+}

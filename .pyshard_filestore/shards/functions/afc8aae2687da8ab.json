@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "afc8aae2687da8ab",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "benchmark_memory_ops",
+    "lineno": 143,
+    "end_lineno": 151,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'benchmark_memory_ops' performing a discrete computational task.",
+    "code_hash": "5386c96eeb9c422e"
+  },
+  "code": "def benchmark_memory_ops():\n    \"\"\"Benchmark memory add/get operations.\"\"\"\n    mem = InMemoryMemory()\n\n    def run():\n        mem.add(f\"Test item at {time.time()}\", tag=\"benchmark\")\n        mem.get(query=\"test\", limit=5)\n\n    return benchmark(\"Memory Ops (add + get)\", run, iterations=10000, warmup=1000)"
+}

@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "129d4929120f0dd1",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/example.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "multiply",
+    "lineno": 26,
+    "end_lineno": 28,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'multiply' performing a discrete computational task.",
+    "code_hash": "0ac479e10ff0d389"
+  },
+  "code": "def multiply(a: float, b: float) -> float:\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b"
+}

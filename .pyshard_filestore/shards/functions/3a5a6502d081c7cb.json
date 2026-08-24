@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "3a5a6502d081c7cb",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "benchmark_planning",
+    "lineno": 212,
+    "end_lineno": 223,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'benchmark_planning' performing a discrete computational task.",
+    "code_hash": "3d87c9544b18603d"
+  },
+  "code": "def benchmark_planning():\n    \"\"\"Benchmark planning step.\"\"\"\n    llm = FastMockLLM('[\"Step 1\", \"Step 2\", \"Step 3\"]')\n    agent = Agent(\n        llm=llm,\n        config=AgentConfig(enable_planning=True)\n    )\n\n    def run():\n        agent._create_plan(\"Solve this complex problem\")\n\n    return benchmark(\"Planning (task decomposition)\", run, iterations=1000, warmup=100)"
+}

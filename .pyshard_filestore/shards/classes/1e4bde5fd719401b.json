@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "1e4bde5fd719401b",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "TestUserAdapter",
+    "lineno": 348,
+    "end_lineno": 354,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'TestUserAdapter' encapsulating related state and behavior.",
+    "code_hash": "9115dc575588d1db"
+  },
+  "code": "class TestUserAdapter(unittest.TestCase):\n\n    @patch(\"builtins.input\", return_value=\"My answer\")\n    def test_user_adapter(self, mock_input):\n        adapter = MockLLM()  # Use mock instead for automated testing\n        result = adapter.chat([Message(role=Role.USER, content=\"Q\")])\n        self.assertIsNotNone(result)"
+}

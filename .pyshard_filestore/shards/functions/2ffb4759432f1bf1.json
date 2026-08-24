@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "2ffb4759432f1bf1",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "benchmark_agent_lifecycle",
+    "lineno": 197,
+    "end_lineno": 209,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'benchmark_agent_lifecycle' performing a discrete computational task.",
+    "code_hash": "497b473e740b4867"
+  },
+  "code": "def benchmark_agent_lifecycle():\n    \"\"\"Benchmark agent creation and destruction.\"\"\"\n    llm = FastMockLLM()\n\n    def run():\n        agent = Agent(\n            llm=llm,\n            config=AgentConfig(enable_planning=False)\n        )\n        agent.run(\"Test\")\n        agent.reset()\n\n    return benchmark(\"Agent Lifecycle (create + run + reset)\", run, iterations=500, warmup=50)"
+}

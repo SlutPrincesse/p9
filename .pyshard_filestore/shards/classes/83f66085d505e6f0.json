@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "83f66085d505e6f0",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "TestHTTPAdapter",
+    "lineno": 335,
+    "end_lineno": 345,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'TestHTTPAdapter' encapsulating related state and behavior.",
+    "code_hash": "ecbb7a5103557ed6"
+  },
+  "code": "class TestHTTPAdapter(unittest.TestCase):\n\n    @patch(\"urllib.request.urlopen\")\n    def test_chat_with_parser(self, mock_urlopen):\n        mock_response = MagicMock()\n        mock_response.read.return_value = json.dumps({\"response\": \"Parsed!\"}).encode()\n        mock_urlopen.return_value.__enter__.return_value = mock_response\n\n        adapter = HTTPAdapter(url=\"http://test/api\", response_parser=lambda r: r[\"response\"])\n        result = adapter.chat([Message(role=Role.USER, content=\"Hi\")])\n        self.assertEqual(result.content, \"Parsed!\")"
+}

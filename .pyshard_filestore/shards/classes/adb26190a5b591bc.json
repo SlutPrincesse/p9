@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "adb26190a5b591bc",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "ToolRegistry",
+    "lineno": 223,
+    "end_lineno": 247,
+    "cyclomatic_complexity": 2,
+    "import_dependencies": [],
+    "description": "Class 'ToolRegistry' encapsulating related state and behavior.",
+    "code_hash": "2a6f2ea61c3f3176"
+  },
+  "code": "class ToolRegistry:\n    \"\"\"Registry for tools.\"\"\"\n\n    def __init__(self):\n        self._tools: Dict[str, Tool] = {}\n\n    def register(self, tool: Tool) -> None:\n        self._tools[tool.name] = tool\n\n    def get(self, name: str) -> Tool:\n        if name not in self._tools:\n            raise ToolError(f\"Tool '{name}' not found\")\n        return self._tools[name]\n\n    def list_tools(self) -> List[Tool]:\n        return list(self._tools.values())\n\n    def get_schemas(self) -> List[Dict[str, Any]]:\n        return [t.to_schema() for t in self._tools.values()]\n\n    def __contains__(self, name: str) -> bool:\n        return name in self._tools\n\n    def __len__(self) -> int:\n        return len(self._tools)"
+}

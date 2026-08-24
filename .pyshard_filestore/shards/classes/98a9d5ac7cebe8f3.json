@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "98a9d5ac7cebe8f3",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "LLMError",
+    "lineno": 89,
+    "end_lineno": 91,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'LLMError' encapsulating related state and behavior.",
+    "code_hash": "7c3252a300154048"
+  },
+  "code": "class LLMError(AgentError):\n    \"\"\"Raised when LLM call fails.\"\"\"\n    pass"
+}

@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "d6da3faee43e7c28",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/example.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "add",
+    "lineno": 20,
+    "end_lineno": 22,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'add' performing a discrete computational task.",
+    "code_hash": "7851f66f53cc40a7"
+  },
+  "code": "def add(a: float, b: float) -> float:\n    \"\"\"Add two numbers.\"\"\"\n    return a + b"
+}

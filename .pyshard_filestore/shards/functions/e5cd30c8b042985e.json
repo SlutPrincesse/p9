@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "e5cd30c8b042985e",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "benchmark",
+    "lineno": 55,
+    "end_lineno": 95,
+    "cyclomatic_complexity": 6,
+    "import_dependencies": [],
+    "description": "Function 'benchmark' performing a discrete computational task.",
+    "code_hash": "f76567c08edfb06d"
+  },
+  "code": "def benchmark(name: str, fn: Callable, iterations: int = 1000, warmup: int = 100) -> dict:\n    \"\"\"Run a benchmark and return statistics.\"\"\"\n    print(f\"  Warming up...\", end=\" \")\n    for _ in range(warmup):\n        try:\n            fn()\n        except Exception:\n            pass\n    print(\"done\")\n\n    print(f\"  Running {iterations} iterations...\", end=\" \")\n    times: List[float] = []\n    for _ in range(iterations):\n        start = time.perf_counter()\n        try:\n            fn()\n        except Exception:\n            pass\n        end = time.perf_counter()\n        times.append(end - start)\n    print(\"done\")\n\n    total_time = sum(times)\n    avg_time = statistics.mean(times)\n    median_time = statistics.median(times)\n    min_time = min(times)\n    max_time = max(times)\n\n    # Calculate ops/sec\n    ops_per_sec = iterations / total_time if total_time > 0 else float('inf')\n\n    return {\n        \"name\": name,\n        \"iterations\": iterations,\n        \"total_time\": total_time,\n        \"avg_time\": avg_time,\n        \"median_time\": median_time,\n        \"min_time\": min_time,\n        \"max_time\": max_time,\n        \"ops_per_sec\": ops_per_sec,\n    }"
+}

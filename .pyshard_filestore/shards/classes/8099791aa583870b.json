@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "8099791aa583870b",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "AgentConfig",
+    "lineno": 583,
+    "end_lineno": 593,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'AgentConfig' encapsulating related state and behavior.",
+    "code_hash": "76b6fee6a6e9e7cd"
+  },
+  "code": "class AgentConfig:\n    max_iterations: int = 10\n    max_history: int = 50\n    temperature: float = 0.7\n    system_prompt: str = \"You are a helpful assistant. Use tools when needed. Think step by step.\"\n    enable_planning: bool = True\n    enable_delegation: bool = True\n    verbose: bool = False\n    budget_limit: float = 1.0       # USD hard cap per run\n    budget_warn_at: float = 0.7     # fire on_warn at this ratio\n    idempotency_path: str | None = None  # deduplication store path"
+}

@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "c85664413c9f836b",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "InMemoryMemory",
+    "lineno": 310,
+    "end_lineno": 331,
+    "cyclomatic_complexity": 2,
+    "import_dependencies": [],
+    "description": "Class 'InMemoryMemory' encapsulating related state and behavior.",
+    "code_hash": "3152dd6e9c3bfa9c"
+  },
+  "code": "class InMemoryMemory:\n    \"\"\"Simple in-memory memory backend.\"\"\"\n\n    def __init__(self, max_items: int = 1000):\n        self._items: deque = deque(maxlen=max_items)\n\n    def add(self, content: str, **metadata) -> None:\n        self._items.append({\n            \"content\": content,\n            \"timestamp\": time.time(),\n            **metadata,\n        })\n\n    def get(self, query: Optional[str] = None, limit: int = 10) -> List[Dict[str, Any]]:\n        items = list(self._items)\n        if query:\n            query_lower = query.lower()\n            items = [i for i in items if query_lower in i.get(\"content\", \"\").lower()]\n        return items[-limit:]\n\n    def clear(self) -> None:\n        self._items.clear()"
+}

@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "1604d85de6b40199",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/test_tiny_agent.py",
+    "category": "ai_agent",
+    "shard_type": "class",
+    "name": "TestToolDecorator",
+    "lineno": 97,
+    "end_lineno": 136,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Class 'TestToolDecorator' encapsulating related state and behavior.",
+    "code_hash": "9ac87c2a9133ecc3"
+  },
+  "code": "class TestToolDecorator(unittest.TestCase):\n\n    def test_decorator_basic(self):\n        @tool()\n        def my_func(a: int, b: str):\n            \"\"\"My docstring.\"\"\"\n            return f\"{a} {b}\"\n\n        self.assertTrue(hasattr(my_func, \"_tiny_agent_tool\"))\n        t = my_func._tiny_agent_tool\n        self.assertEqual(t.name, \"my_func\")\n        self.assertEqual(t.description, \"My docstring.\")\n        self.assertEqual(t.parameters[\"type\"], \"object\")\n        self.assertIn(\"a\", t.parameters[\"properties\"])\n        self.assertIn(\"b\", t.parameters[\"properties\"])\n\n    def test_decorator_custom_name(self):\n        @tool(name=\"custom_name\", description=\"Custom desc\")\n        def my_func():\n            pass\n\n        t = my_func._tiny_agent_tool\n        self.assertEqual(t.name, \"custom_name\")\n        self.assertEqual(t.description, \"Custom desc\")\n\n    def test_decorator_schema(self):\n        @tool(schema={\"type\": \"object\", \"properties\": {\"x\": {\"type\": \"number\"}}})\n        def my_func(x):\n            return x * 2\n\n        t = my_func._tiny_agent_tool\n        self.assertEqual(t.parameters, {\"type\": \"object\", \"properties\": {\"x\": {\"type\": \"number\"}}})\n\n    def test_tool_call(self):\n        @tool()\n        def multiply(a: int, b: int) -> int:\n            return a * b\n\n        result = multiply._tiny_agent_tool.call(a=3, b=4)\n        self.assertEqual(result, 12)"
+}

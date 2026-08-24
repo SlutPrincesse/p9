@@ -1,0 +1,17 @@
+{
+  "metadata": {
+    "shard_id": "3e7d7fb4545c64fc",
+    "source_repo": "repo_0",
+    "source_file": ".pyshard_sandbox/repo_0/benchmark.py",
+    "category": "utility",
+    "shard_type": "function",
+    "name": "print_results",
+    "lineno": 98,
+    "end_lineno": 107,
+    "cyclomatic_complexity": 1,
+    "import_dependencies": [],
+    "description": "Function 'print_results' performing a discrete computational task.",
+    "code_hash": "48a53eae6f7b76d2"
+  },
+  "code": "def print_results(results: dict) -> None:\n    \"\"\"Pretty print benchmark results.\"\"\"\n    print(f\"\\n  {results['name']}:\")\n    print(f\"    Iterations:     {results['iterations']:,}\")\n    print(f\"    Total time:     {results['total_time']:.4f}s\")\n    print(f\"    Avg time:       {results['avg_time']*1000:.4f}ms\")\n    print(f\"    Median time:    {results['median_time']*1000:.4f}ms\")\n    print(f\"    Min time:       {results['min_time']*1000:.4f}ms\")\n    print(f\"    Max time:       {results['max_time']*1000:.4f}ms\")\n    print(f\"    Ops/sec:        {results['ops_per_sec']:,.2f}\")"
+}
