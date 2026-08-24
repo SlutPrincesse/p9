@@ -6,6 +6,7 @@ import ast
 import hashlib
 import json
 import os
+import re
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -101,9 +102,14 @@ def _shard_id(source_file: str, name: str, lineno: int) -> str:
 
 def shard_file(file_path: str, source_repo: str) -> List[ShardMetadata]:
     path = Path(file_path)
-    if not path.suffix == ".py":
-        return []
+    if path.suffix == ".py":
+        return _shard_python_file(path, source_repo)
+    if path.suffix in (".kt", ".java"):
+        return _shard_kotlin_file(path, source_repo)
+    return []
 
+
+def _shard_python_file(path: Path, source_repo: str) -> List[ShardMetadata]:
     try:
         source = path.read_text(encoding="utf-8")
     except Exception:
@@ -173,6 +179,93 @@ def shard_file(file_path: str, source_repo: str) -> List[ShardMetadata]:
                 description=description,
                 code_hash=code_hash,
             ))
+
+    return shards
+
+
+def _shard_kotlin_file(path: Path, source_repo: str) -> List[ShardMetadata]:
+    try:
+        source = path.read_text(encoding="utf-8")
+    except Exception:
+        return []
+
+    lines = source.splitlines()
+    rel_path = str(path)
+    shards: List[ShardMetadata] = []
+
+    package = ""
+    m = re.search(r"package\s+([\w.]+)", source)
+    if m:
+        package = m.group(1)
+
+    imports = re.findall(r"import\s+([\w.]+)", source)
+
+    def _category_for(code: str, file_path: str) -> str:
+        p = str(file_path).lower()
+        c = code.lower()
+        if any(k in p for k in ["extension", "module", "builtin"]):
+            return "extension"
+        if any(k in p for k in ["webview", "shell"]):
+            return "webview"
+        if any(k in p for k in ["config", "model", "data"]):
+            return "config"
+        if any(k in p for k in ["agent", "ai", "llm"]):
+            return "agent"
+        if any(k in p for k in ["network", "proxy", "dns"]):
+            return "network"
+        if any(k in p for k in ["ui", "compose", "activity"]):
+            return "ui"
+        if any(k in c for k in ["@composable", "androidview", "webview"]):
+            return "ui"
+        return "android"
+
+    def _make_shard(name: str, shard_type: str, start: int, end: int, code: str) -> ShardMetadata:
+        complexity = 1
+        for child_line in code.splitlines():
+            if re.search(r"\b(if|while|for|when|catch|try)\b", child_line):
+                complexity += 1
+        shard_id = _shard_id(rel_path, name, start)
+        code_hash = hashlib.sha256(code.encode()).hexdigest()[:16]
+        return ShardMetadata(
+            shard_id=shard_id,
+            source_repo=source_repo,
+            source_file=rel_path,
+            category=_category_for(code, rel_path),
+            shard_type=shard_type,
+            name=name,
+            lineno=start,
+            end_lineno=end,
+            cyclomatic_complexity=complexity,
+            import_dependencies=imports,
+            description=f"{shard_type.capitalize()} '{name}' from {package}",
+            code_hash=code_hash,
+        )
+
+    # Classes
+    for m in re.finditer(r"^(public\s+)?(abstract\s+)?(data\s+)?class\s+(\w+)", source, re.MULTILINE):
+        name = m.group(4)
+        start = source[:m.start()].count("\n") + 1
+        end = len(lines)
+        for i in range(start, len(lines)):
+            line = lines[i]
+            if line.strip() and not line.startswith(" ") and not line.startswith("\t") and i > start:
+                end = i
+                break
+        code = "\n".join(lines[start - 1:end])
+        shards.append(_make_shard(name, "class", start, end, code))
+
+    # Top-level functions
+    for m in re.finditer(r"^(public\s+)?(suspend\s+)?fun\s+(\w+)\s*\(", source, re.MULTILINE):
+        name = m.group(3)
+        start = source[:m.start()].count("\n") + 1
+        end = len(lines)
+        for i in range(start, len(lines)):
+            line = lines[i]
+            if line.strip() and not line.startswith(" ") and not line.startswith("\t") and i > start:
+                end = i
+                break
+        code = "\n".join(lines[start - 1:end])
+        shards.append(_make_shard(name, "function", start, end, code))
 
     return shards
 

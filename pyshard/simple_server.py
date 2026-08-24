@@ -225,6 +225,89 @@ class PyShardHandler(BaseHTTPRequestHandler):
                 self._send_json(500, {"detail": str(e)})
             return
 
+        if self.path == "/api/wta/shard":
+            try:
+                from pyshard.compatibility.web_to_app import shard_kotlin_directory
+                repo_dirs = [d for d in SANDBOX_DIR.iterdir() if d.is_dir() and (d / ".git").exists()]
+                if not repo_dirs:
+                    self._send_json(400, {"detail": "No git repos found in sandbox"})
+                    return
+                all_shards = []
+                for repo_dir in repo_dirs:
+                    raw_shards = shard_kotlin_directory(str(repo_dir), source_repo=repo_dir.name)
+                    for s in raw_shards:
+                        all_shards.append({
+                            "shard_id": getattr(s, 'shard_id', ''),
+                            "name": s.name,
+                            "shard_type": s.shard_type,
+                            "category": s.category,
+                            "source_repo": s.source_repo,
+                            "source_file": s.source_file,
+                            "lineno": s.lineno,
+                            "end_lineno": s.end_lineno,
+                            "cyclomatic_complexity": s.cyclomatic_complexity,
+                            "import_dependencies": s.imports,
+                            "description": s.description,
+                        })
+                self._send_json(200, {
+                    "status": "ok",
+                    "total_shards": len(all_shards),
+                    "shards": all_shards,
+                })
+            except Exception as e:
+                self._send_json(500, {"detail": str(e)})
+            return
+
+        if self.path == "/api/wta/generate-module":
+            try:
+                from pyshard.compatibility.web_to_app import WebToAppCompatibility, generate_wtamod
+                shard = body.get("shard", {})
+                output_dir = body.get("output_dir", str(OUTPUT_DIR / "wta_modules"))
+                module = WebToAppCompatibility.generate_module_from_shard(shard)
+                module_dir = module.write_module_package(output_dir)
+                wtamod_path = generate_wtamod(module, str(Path(output_dir) / f"{module.id}.wtamod"))
+                self._send_json(200, {"status": "ok", "result": {
+                    "module_dir": module_dir,
+                    "wtamod": wtamod_path,
+                    "module_json": str(Path(module_dir) / "module.json"),
+                    "main_js": str(Path(module_dir) / "main.js"),
+                }})
+            except Exception as e:
+                self._send_json(500, {"detail": str(e)})
+            return
+
+        if self.path == "/api/wta/generate-registry":
+            try:
+                from pyshard.compatibility.web_to_app import WebToAppCompatibility, WebToAppModule
+                modules_data = body.get("modules", [])
+                modules = [WebToAppModule(**m) for m in modules_data]
+                output_path = body.get("output_path", str(OUTPUT_DIR / "wta_modules" / "registry.json"))
+                result_path = WebToAppCompatibility.synthesize_web_to_app_registry(modules, output_path)
+                self._send_json(200, {"status": "ok", "registry_path": result_path})
+            except Exception as e:
+                self._send_json(500, {"detail": str(e)})
+            return
+
+        if self.path == "/api/wta/generate-apk-config":
+            try:
+                from pyshard.compatibility.web_to_app import WebToAppCompatibility
+                app_name = body.get("app_name", "MyApp")
+                package_name = body.get("package_name", "com.example.myapp")
+                target_url = body.get("target_url", "")
+                output_path = body.get("output_path", "")
+                result_path = WebToAppCompatibility.synthesize_web_to_app_module({}).generate_apk_config if False else None
+                from pyshard.compatibility.web_to_app import ApkConfigSynthesis
+                config = ApkConfigSynthesis(
+                    app_name=app_name,
+                    package_name=package_name,
+                    target_url=target_url,
+                )
+                result_path = config.write(output_path or str(OUTPUT_DIR / f"{app_name}_apk_config.json"))
+                self._send_json(200, {"status": "ok", "config_path": result_path, "config": config.to_json()})
+            except Exception as e:
+                self._send_json(500, {"detail": str(e)})
+            return
+
         self._send_json(404, {"error": "Not found"})
 
 
